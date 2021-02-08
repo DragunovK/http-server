@@ -2,6 +2,7 @@ package com.github.iitdevelopment.core;
 
 import com.github.iitdevelopment.delegator.DelegatorImpl;
 import com.github.iitdevelopment.delegator.IDelegator;
+import com.github.iitdevelopment.subscriber.ISubscriber;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -33,5 +34,13 @@ public class Server implements Runnable{
                 e.printStackTrace();
             }
         }
+    }
+
+    public void subscribe(ISubscriber subscriber) {
+        delegator.subscribe(subscriber);
+    }
+
+    public void subscribe(ISubscriber... subscribers) {
+        delegator.subscribe(subscribers);
     }
 }
