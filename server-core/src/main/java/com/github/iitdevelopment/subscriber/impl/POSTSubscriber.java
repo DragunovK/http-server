@@ -5,13 +5,14 @@ import com.github.iitdevelopment.HttpCode;
 import com.github.iitdevelopment.HttpMethod;
 import com.github.iitdevelopment.subscriber.ISubscriber;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Date;
 
 public class POSTSubscriber implements ISubscriber {
     @Override
-    public String delegateInput(String input, OutputStream response) {
+    public void delegateInput(String input, OutputStream response) {
         PrintWriter forHead = new PrintWriter(response);
 
         forHead.println(
@@ -22,12 +23,15 @@ public class POSTSubscriber implements ISubscriber {
                 "Content-type: " + ContentType.PLAIN_TEXT.getType() + "\n" +
                 "Content-length: " + 0 + "\n" +
                 "Access-Control-Allow-Origin: " + "localhost" + "\n" +
-                "Access-Control-Allow-Methods: " + "GET, POST, OPTIONS" + "\n" +
-                "\n"
+                "Access-Control-Allow-Methods: " + "GET, POST, OPTIONS" + "\n"
         );
         forHead.flush();
 
-        return null;
+        try {
+            response.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

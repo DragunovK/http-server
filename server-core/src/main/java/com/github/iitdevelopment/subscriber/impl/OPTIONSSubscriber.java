@@ -28,7 +28,7 @@ public class OPTIONSSubscriber implements ISubscriber {
     }
 
     @Override
-    public String delegateInput(String input, OutputStream response) {
+    public void delegateInput(String input, OutputStream response) {
         PrintWriter forHead = new PrintWriter(response);
         BufferedOutputStream forData = new BufferedOutputStream(response);
 
@@ -42,8 +42,7 @@ public class OPTIONSSubscriber implements ISubscriber {
                 "Content-type: " + ContentType.PLAIN_TEXT.getType() + "\n" +
                 "Content-length: " + fileData.length + "\n" +
                 "Access-Control-Allow-Origin: " + "localhost" + "\n" +
-                "Access-Control-Allow-Methods: " + "GET, POST, OPTIONS" + "\n" +
-                "\n"
+                "Access-Control-Allow-Methods: " + "GET, POST, OPTIONS" + "\n"
         );
         forHead.flush();
 
@@ -54,7 +53,11 @@ public class OPTIONSSubscriber implements ISubscriber {
             e.printStackTrace();
         }
 
-        return null;
+        try {
+            response.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

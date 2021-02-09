@@ -25,8 +25,7 @@ public class GETSubscriber implements ISubscriber {
                 "Content-type: " + type.getType() + "\n" +
                 "Content-length: " + fileData.length + "\n" +
                 "Access-Control-Allow-Origin: " + "localhost" + "\n" +
-                "Access-Control-Allow-Methods: " + "GET, POST, OPTIONS" + "\n" +
-                "\n"
+                "Access-Control-Allow-Methods: " + "GET, POST, OPTIONS" + "\n"
         );
         forHead.flush();
 
@@ -65,7 +64,7 @@ public class GETSubscriber implements ISubscriber {
     }
 
     @Override
-    public String delegateInput(String input, OutputStream response) {
+    public void delegateInput(String input, OutputStream response) {
         String path = getPath(input);
         InputStream inputStream = getClass().getResourceAsStream(path);
         if (inputStream == null) {
@@ -86,7 +85,11 @@ public class GETSubscriber implements ISubscriber {
             );
         }
 
-        return null;
+        try {
+            response.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
