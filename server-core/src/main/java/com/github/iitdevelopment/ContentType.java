@@ -8,7 +8,8 @@ public enum ContentType {
     CSS("text/css", "css"),
     JS("application/javascript", "js"),
     PNG("image/png", "png"),
-    JPEG("image/jpeg", "jpeg");
+    JPEG("image/jpeg", "jpg"),
+    SVG("image/svg+xml", "svg");
 
     private final String type;
     private final String extension;

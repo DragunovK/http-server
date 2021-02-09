@@ -10,8 +10,6 @@ import java.io.PrintWriter;
 import java.util.Date;
 
 public class POSTSubscriber implements ISubscriber {
-    private final HttpMethod method = HttpMethod.POST;
-
     @Override
     public String delegateInput(String input, OutputStream response) {
         PrintWriter forHead = new PrintWriter(response);
@@ -34,6 +32,6 @@ public class POSTSubscriber implements ISubscriber {
 
     @Override
     public HttpMethod getMethod() {
-        return method;
+        return HttpMethod.POST;
     }
 }

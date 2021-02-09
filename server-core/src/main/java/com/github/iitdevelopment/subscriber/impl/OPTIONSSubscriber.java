@@ -9,8 +9,6 @@ import java.io.*;
 import java.util.Date;
 
 public class OPTIONSSubscriber implements ISubscriber {
-    private final HttpMethod method = HttpMethod.OPTIONS;
-
     private byte[] readFile(String path) {
         InputStream inputStream = getClass().getResourceAsStream(path);
         byte[] fileData = new byte[0];
@@ -29,13 +27,12 @@ public class OPTIONSSubscriber implements ISubscriber {
         return fileData;
     }
 
-
     @Override
     public String delegateInput(String input, OutputStream response) {
         PrintWriter forHead = new PrintWriter(response);
         BufferedOutputStream forData = new BufferedOutputStream(response);
 
-        byte[] fileData = readFile("OPTIONS.txt");
+        byte[] fileData = readFile("/OPTIONS.txt");
 
         forHead.println(
                 "HTTP/1.1 " + HttpCode.OK.getCode() + " " +
@@ -62,6 +59,6 @@ public class OPTIONSSubscriber implements ISubscriber {
 
     @Override
     public HttpMethod getMethod() {
-        return method;
+        return HttpMethod.OPTIONS;
     }
 }
