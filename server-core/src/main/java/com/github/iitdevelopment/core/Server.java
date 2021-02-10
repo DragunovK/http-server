@@ -9,8 +9,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Server implements Runnable{
+
+    private static final Logger logger = Logger.getLogger(Server.class.getName());
 
     private ServerSocket serverSocket;
     private ExecutorService executorService;
@@ -24,9 +28,12 @@ public class Server implements Runnable{
 
     @Override
     public void run() {
+        logger.log(Level.INFO, "Server started. Connections expected on port " + serverSocket.getLocalPort());
+
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
+                logger.log(Level.INFO, "New connection via " + socket);
                 executorService.execute(() -> {
                     delegator.delegate(socket);
                 });

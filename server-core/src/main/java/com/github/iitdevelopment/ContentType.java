@@ -35,4 +35,11 @@ public enum ContentType {
                 .findFirst()
                 .orElse(PLAIN_TEXT);
     }
+
+    public static ContentType getContentType(String type) {
+        return Arrays.stream(ContentType.values())
+                .filter(t -> t.getType().equalsIgnoreCase(type))
+                .findFirst()
+                .orElse(null);
+    }
 }

@@ -8,8 +8,13 @@ import com.github.iitdevelopment.subscriber.ISubscriber;
 import java.io.*;
 import java.util.Date;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class GETSubscriber implements ISubscriber {
+public class GetSubscriber implements ISubscriber {
+
+    private static final Logger logger = Logger.getLogger(GetSubscriber.class.getName());
+
     private void createResponse(OutputStream response,
                                 HttpCode code,
                                 ContentType type,
@@ -34,7 +39,10 @@ public class GETSubscriber implements ISubscriber {
             forData.flush();
         } catch (IOException e) {
             e.printStackTrace();
+            logger.log(Level.WARNING, "Data write error: " + e.getMessage());
         }
+
+        logger.log(Level.INFO, "Created response of code " + code.getCode());
     }
 
     private String getPath(String input) {
@@ -52,31 +60,35 @@ public class GETSubscriber implements ISubscriber {
             fileData = new byte[inputStream.available()];
             inputStream.read(fileData);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "File reading error: " + e.getMessage());
         } finally {
             try {
                 inputStream.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.log(Level.WARNING, inputStream + " closing error: " + e.getMessage());
             }
         }
+        logger.log(Level.INFO, "Read " + fileData.length + " bytes from " + inputStream);
         return fileData;
     }
 
     @Override
-    public void delegateInput(String input, OutputStream response) {
-        String path = getPath(input);
+    public void delegateInput(String inputHeader, byte[] inputBody, OutputStream response) {
+        String path = getPath(inputHeader);
         InputStream inputStream = getClass().getResourceAsStream(path);
+
+        logger.log(Level.INFO, "Requested file: " + path);
+
         if (inputStream == null) {
+            logger.log(Level.INFO, "Couldn't find requested file. Sending back /404.html");
             createResponse(
                     response,
                     HttpCode.NOT_FOUND,
                     ContentType.HTML,
-                    readFile(
-                            getClass().getResourceAsStream("/404.html")
-                    )
+                    readFile(getClass().getResourceAsStream("/service/404.html"))
             );
         } else {
+            logger.log(Level.INFO, "Requested file found. About to read it with " + inputStream);
             createResponse(
                     response,
                     HttpCode.OK,
@@ -86,9 +98,10 @@ public class GETSubscriber implements ISubscriber {
         }
 
         try {
+            logger.log(Level.INFO, "Closing response [" + response + "]");
             response.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Response [" + response + "] close error: " + e.getMessage());
         }
     }
 

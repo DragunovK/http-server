@@ -6,7 +6,7 @@ import java.io.OutputStream;
 
 public interface ISubscriber {
 
-    void delegateInput(String input, OutputStream response);
+    void delegateInput(String inputHeader, byte[] inputBody, OutputStream response);
 
     HttpMethod getMethod();
 }
