@@ -20,9 +20,9 @@ public class ServerApplication {
             file.createNewFile();
         }
         PrintStream logout = new PrintStream(file);
-        //System.setErr(logout);
+        System.setErr(logout);
 
-        Server server = new Server(8080, 10);
+        Server server = new Server(8080, 20);
         server.subscribe(
                 new GetSubscriber(),
                 new PostSubscriber(),

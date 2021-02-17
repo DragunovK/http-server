@@ -6,6 +6,7 @@ import com.github.iitdevelopment.HttpMethod;
 import com.github.iitdevelopment.subscriber.ISubscriber;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -46,8 +47,7 @@ public class PostSubscriber implements ISubscriber {
                 "Server: Server" + "\n" +
                 "Date: " + new Date() + "\n" +
                 "Access-Control-Allow-Origin: " + "localhost" + "\n" +
-                "Access-Control-Allow-Methods: " + "GET, POST, OPTIONS" + "\n"
-        );
+                "Access-Control-Allow-Methods: " + Arrays.toString(HttpMethod.values()) + "\n"        );
         forHead.flush();
 
         try {

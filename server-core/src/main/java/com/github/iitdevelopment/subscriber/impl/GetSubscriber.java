@@ -6,6 +6,7 @@ import com.github.iitdevelopment.HttpMethod;
 import com.github.iitdevelopment.subscriber.ISubscriber;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -30,7 +31,7 @@ public class GetSubscriber implements ISubscriber {
                 "Content-type: " + type.getType() + "\n" +
                 "Content-length: " + fileData.length + "\n" +
                 "Access-Control-Allow-Origin: " + "localhost" + "\n" +
-                "Access-Control-Allow-Methods: " + "GET, POST, OPTIONS" + "\n"
+                "Access-Control-Allow-Methods: " + Arrays.toString(HttpMethod.values()) + "\n"
         );
         forHead.flush();
 

@@ -1,5 +1,8 @@
 package com.github.iitdevelopment.delegator.messageReader;
 
+import sun.misc.IOUtils;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -34,8 +37,13 @@ public class MessageReader {
     }
 
     public static List<byte[]> read(InputStream inputStream) throws IOException {
-        byte[] data = new byte[65536];
-        inputStream.read(data);
+        byte[] data =  new byte[65536];
+        int offset = 0;
+        while (inputStream.available() > 0) {
+            offset+= inputStream.read(data, offset, inputStream.available());
+        }
+        data = Arrays.copyOf(data, offset);
+
         List<byte[]> splitMessage = split(data, "\r\n\r\n".getBytes());
 
         if (splitMessage.size() == 1) {

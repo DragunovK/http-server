@@ -5,7 +5,8 @@ public enum HttpCode {
     CREATED(201, "Created"),
     BAD_REQUEST(400, "Bad Request"),
     NOT_FOUND(404, "Not Found"),
-    NOT_IMPLEMENTED(501, "Not Implemented");
+    NOT_IMPLEMENTED(501, "Not Implemented"),
+    INTERNAL_SERVER_ERROR(500, "Internal Server Error");
 
     private final int code;
     private final String description;

@@ -1,6 +1,0 @@
-Access methods:
-    GET
-    POST
-    OPTIONS
-Error pages:
-    404.html

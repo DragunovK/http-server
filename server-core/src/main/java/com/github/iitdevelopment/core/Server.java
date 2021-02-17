@@ -22,7 +22,12 @@ public class Server implements Runnable{
 
     public Server(int port, int threadPoolSize) throws IOException {
         this.serverSocket = new ServerSocket(port);
-        this.executorService = Executors.newFixedThreadPool(threadPoolSize);
+        this.executorService = Executors.newFixedThreadPool(threadPoolSize, (p) -> {
+            Thread t = new Thread(p);
+            t.setDaemon(true);
+            t.setPriority(10);
+            return t;
+        });
         this.delegator = new DelegatorImpl();
     }
 
