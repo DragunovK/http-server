@@ -3,6 +3,7 @@ package com.github.iitdevelopment.subscriber.impl;
 import com.github.iitdevelopment.ContentType;
 import com.github.iitdevelopment.HttpCode;
 import com.github.iitdevelopment.HttpMethod;
+import com.github.iitdevelopment.core.Server;
 import com.github.iitdevelopment.subscriber.ISubscriber;
 
 import java.io.*;
@@ -29,7 +30,7 @@ public class PostSubscriber implements ISubscriber {
 
         File file = null;
         try {
-            file = new File("post_" + response.toString().substring(27) + "." + contentType.getExtension());
+            file = new File(Server.resourcePath + "\\post_" + response.toString().substring(27) + "." + contentType.getExtension());
             file.createNewFile();
             OutputStream os = new FileOutputStream(file);
             os.write(inputBody);

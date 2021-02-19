@@ -3,6 +3,7 @@ package com.github.iitdevelopment.subscriber.impl;
 import com.github.iitdevelopment.ContentType;
 import com.github.iitdevelopment.HttpCode;
 import com.github.iitdevelopment.HttpMethod;
+import com.github.iitdevelopment.core.Server;
 import com.github.iitdevelopment.subscriber.ISubscriber;
 
 import java.io.*;
@@ -51,8 +52,8 @@ public class GetSubscriber implements ISubscriber {
         tokenizer.nextToken(); // skip method token
         String path = tokenizer.nextToken();
         if (path.endsWith("/"))
-            path = "/index.html";
-        return path;
+            path = "\\index.html";
+        return Server.resourcePath + path;
     }
 
     private byte[] readFile(InputStream inputStream) {
@@ -76,7 +77,18 @@ public class GetSubscriber implements ISubscriber {
     @Override
     public void delegateInput(String inputHeader, byte[] inputBody, OutputStream response) {
         String path = getPath(inputHeader);
-        InputStream inputStream = getClass().getResourceAsStream(path);
+        System.out.println(path);
+        InputStream inputStream = null;
+        if (!Server.resourcePath .equalsIgnoreCase( "")) {
+            try {
+                inputStream = new FileInputStream(path);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            path = path.replace("\\", "/");
+            inputStream = getClass().getResourceAsStream(path);
+        }
 
         logger.log(Level.INFO, "Requested file: " + path);
 
@@ -104,6 +116,7 @@ public class GetSubscriber implements ISubscriber {
         } catch (IOException e) {
             logger.log(Level.WARNING, "Response [" + response + "] close error: " + e.getMessage());
         }
+
     }
 
     @Override

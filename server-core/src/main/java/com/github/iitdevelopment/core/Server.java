@@ -12,7 +12,9 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Server implements Runnable{
+public class Server implements Runnable {
+
+    public static String resourcePath = "";
 
     private static final Logger logger = Logger.getLogger(Server.class.getName());
 
